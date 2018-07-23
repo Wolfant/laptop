@@ -3,4 +3,4 @@ all: ansible
 	ansible-playbook main.yml -K
 
 ansible:
-	sudo dnf install ansible
+	sudo dnf -y install ansible

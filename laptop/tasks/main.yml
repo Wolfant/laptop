@@ -24,9 +24,13 @@
     - tmux-powerline
     - vim-powerline
     - python-pip
+    - python2-devel
+    - python3-devel
+    - libselinux-python
     - dnf-plugins-core
     - python3-dnf-plugins-core.noarch
     - hunspell-es-*
+    - remmina
   when: ansible_distribution == "Fedora"
   tags:
     - fedora
@@ -39,7 +43,6 @@
     - fedora
     - packages
 
-
 - name: Install YADM
   dnf:
     name: yadm
@@ -48,6 +51,19 @@
   tags:
     - fedora
     - packages
+
+- name: Copy Google Chrome Repo
+  copy: 
+    src: files/google-chrome.repo
+    dest: /etc/yum.repos.d/
+  become: true
+
+- name: install the latest version of Google Chrome
+  dnf:
+    name: google-chrome-stable
+    enablerepo: google-chrome
+    state: present
+  become: true
 
 - name: Enable Flathub repository
   become: true
@@ -64,6 +80,7 @@
     - com.visualstudio.code
     - org.gnome.Fractal
     - com.dropbox.Client
+    - com.skype.Client
   tags:
     - fedora
     - packages
@@ -89,4 +106,9 @@
     name: docker
     state: started
     enabled: true
+  become: true
+
+- name: Pip Software
+  pip:
+    name: molecule
   become: true
