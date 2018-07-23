@@ -1,0 +1,75 @@
+---
+# tasks file for laptop
+- name: Update Software
+  dnf:
+    name: "*"
+    state: latest
+  become: true
+  when: ansible_distribution == "Fedora"
+  tags:
+    - fedora
+    - packages
+
+- name: Install Aditional Packages
+  dnf:
+    name: "{{ item }}"
+    state: present
+  become: true
+  with_items:
+    - vim
+    - wget
+    - tmux
+    - powerline
+    - powerline-fonts
+    - tmux-powerline
+    - vim-powerline
+    - python-pip
+    - python3-dnf-plugins-core.noarch
+    - hunspell-es-*
+  when: ansible_distribution == "Fedora"
+  tags:
+    - fedora
+    - packages
+
+- name: Active COPER YADM Repo
+  command: dnf -y copr enable thelocehiliosan/yadm
+  become: true
+  tags:
+    - fedora
+    - packages
+
+
+- name: Install YADM
+  dnf:
+    name: yadm
+    state: latest
+  become: true
+  tags:
+    - fedora
+    - packages
+
+
+- name: Enable Flathub repository
+  become: true
+  command: flatpak remote-add --if-not-exists flathub https://flathub.org/repo/flathub.flatpakrepo
+  tags:
+    - fedora
+    - packages
+
+- name: Install Flathub apps
+  become: true
+  command: flatpak install --assumeyes flathub {{ item }}
+  with_items:
+    - com.spotify.Client
+    - com.visualstudio.code
+    - org.gnome.Fractal
+    - com.dropbox.Client
+  tags:
+    - fedora
+    - packages
+
+- name: Configure Fedora
+  command: yadm clone https://github.com/Wolfant/Dotfiles
+  tags:
+    - fedora
+    - configure
