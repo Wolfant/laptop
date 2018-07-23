@@ -27,6 +27,13 @@
     - python2-devel
     - python3-devel
     - libselinux-python
+    - kernel-devel
+    - kernel-headers
+    - dkms
+    - gcc
+    - make
+    - bzip2
+    - perl  
     - dnf-plugins-core
     - python3-dnf-plugins-core.noarch
     - hunspell-es-*
@@ -68,6 +75,7 @@
 - name: Enable Flathub repository
   become: true
   command: flatpak remote-add --if-not-exists flathub https://flathub.org/repo/flathub.flatpakrepo
+  ignore_errors: true
   tags:
     - fedora
     - packages
@@ -81,6 +89,7 @@
     - org.gnome.Fractal
     - com.dropbox.Client
     - com.skype.Client
+  ignore_errors: true
   tags:
     - fedora
     - packages
@@ -112,3 +121,4 @@
   pip:
     name: molecule
   become: true
+  ignore_errors: true
