@@ -24,6 +24,7 @@
     - tmux-powerline
     - vim-powerline
     - python-pip
+    - dnf-plugins-core
     - python3-dnf-plugins-core.noarch
     - hunspell-es-*
   when: ansible_distribution == "Fedora"
@@ -47,7 +48,6 @@
   tags:
     - fedora
     - packages
-
 
 - name: Enable Flathub repository
   become: true
@@ -73,3 +73,20 @@
   tags:
     - fedora
     - configure
+  ignore_errors: true
+
+- name: Install Docker
+  dnf:
+    name: docker
+    state: latest
+  become: true
+  tags:
+    - fedora
+    - docker
+
+- name: Active Docker
+  service:
+    name: docker
+    state: started
+    enabled: true
+  become: true
