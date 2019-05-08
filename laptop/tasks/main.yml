@@ -10,42 +10,59 @@
     - fedora
     - packages
 
-- name: Install Aditional Packages
-  dnf:
-    name: "{{ item }}"
-    state: present
+- name: Copy Aditional repos Repo
+  copy: 
+    src: "{{ item }}"
+    dest: /etc/yum.repos.d/
   become: true
-  with_items:
-    - vim
-    - wget
-    - tmux
-    - powerline
-    - powerline-fonts
-    - tmux-powerline
-    - vim-powerline
-    - python-pip
-    - python2-devel
-    - python3-devel
-    - libselinux-python
-    - kernel-devel
-    - kernel-headers
-    - dkms
-    - gcc
-    - make
-    - bzip2
-    - perl  
-    - dnf-plugins-core
-    - python3-dnf-plugins-core.noarch
-    - hunspell-es-*
-    - remmina
+  loop:
+    - files/vscode.repo
+    - files/google-chrome.repo
   when: ansible_distribution == "Fedora"
   tags:
     - fedora
     - packages
 
+- name: Install Aditional Packages
+  dnf:
+    name: "{{ item }}"
+    state: present
+  become: true
+  loop:
+    - "{{ install_packages }}" 
+  when: ansible_distribution == "Fedora"
+  tags:
+    - fedora
+    - packages
+
+- name: Add rpm keys
+  rpm_key:
+    state: present
+    key: "{{ item }}"
+  become: true
+  loop:
+    - /etc/pki/rpm-gpg/RPM-GPG-KEY-adobe-linux
+    - https://packages.microsoft.com/keys/microsoft.asc
+
+- name: Install Flash
+  dnf:
+    name: "{{ item }}"
+    state: present
+  become: true
+  loop:
+    - flash-plugin
+    - alsa-plugins-pulseaudio 
+    - libcurl
+  when: ansible_distribution == "Fedora"
+  tags:
+    - fedora
+    - packages
+ 
+
 - name: Active COPER YADM Repo
   command: dnf -y copr enable thelocehiliosan/yadm
   become: true
+  ignore_errors: true
   tags:
     - fedora
     - packages
@@ -55,15 +72,10 @@
     name: yadm
     state: latest
   become: true
+  ignore_errors: true
   tags:
     - fedora
     - packages
-
-- name: Copy Google Chrome Repo
-  copy: 
-    src: files/google-chrome.repo
-    dest: /etc/yum.repos.d/
-  become: true
 
 - name: install the latest version of Google Chrome
   dnf:
@@ -72,24 +84,24 @@
     state: present
   become: true
 
-- name: Enable Flathub repository
+- name: Add the flathub flatpak repository remote
+  flatpak_remote:
+    name: flathub
+    state: present
+    flatpakrepo_url: https://flathub.org/repo/flathub.flatpakrepo
   become: true
-  command: flatpak remote-add --if-not-exists flathub https://flathub.org/repo/flathub.flatpakrepo
-  ignore_errors: true
-  tags:
-    - fedora
-    - packages
 
 - name: Install Flathub apps
-  become: true
-  command: flatpak install --assumeyes flathub {{ item }}
-  with_items:
+  flatpak:
+    name: "{{ item }}"
+    state: present
+  loop:
     - com.spotify.Client
-    - com.visualstudio.code
     - org.gnome.Fractal
     - com.dropbox.Client
     - com.skype.Client
   ignore_errors: true
+  become: true
   tags:
     - fedora
     - packages
@@ -101,24 +113,3 @@
     - configure
   ignore_errors: true
 
-- name: Install Docker
-  dnf:
-    name: docker
-    state: latest
-  become: true
-  tags:
-    - fedora
-    - docker
-
-- name: Active Docker
-  service:
-    name: docker
-    state: started
-    enabled: true
-  become: true
-
-- name: Pip Software
-  pip:
-    name: molecule
-  become: true
-  ignore_errors: true
