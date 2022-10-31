@@ -1,5 +1,3 @@
-
-cat <<EOF > Makefile
 # Instalador Automatico
 all: update sudo tzdata git ansible clean
 	ansible-playbook main.yml -K
@@ -15,4 +13,3 @@ update:
 	apt-get update
 clean:
 	sudo apt-get clean
-EOF
