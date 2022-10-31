@@ -1,36 +1,9 @@
 ---
 # vars file for laptop
 install_packages:
-  - http://linuxdownload.adobe.com/adobe-release/adobe-release-x86_64-1.0-1.noarch.rpm
   - vim
+  - software-properties-common
+  - apt-transport-https
   - wget
-  - tmux
-  - powerline
-  - powerline-fonts
-  - tmux-powerline
-  - vim-powerline
-  - python-pip
-  - python2-devel
-  - python3-devel
-  - libselinux-python
-  - kernel-devel
-  - kernel-headers
-  - dkms
-  - gcc
-  - make
-  - bzip2
-  - perl
-  - dnf-plugins-core
-  - python3-dnf-plugins-core.noarch
-  - hunspell-es-*
-  - remmina
   - code
-  - flatpak
-  - bridge-utils
-  - libvirt
-  - virt-install
-  - qemu-kvm
-  - virt-top
-  - libguestfs-tools
-  - virt-manager
 

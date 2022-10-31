@@ -1,115 +1,34 @@
 ---
 # tasks file for laptop
-- name: Update Software
-  dnf:
+- name: Update all packages to their latest version
+  ansible.builtin.apt:
     name: "*"
     state: latest
   become: true
-  when: ansible_distribution == "Fedora"
+  when: ansible_os_family == "Debian"
   tags:
-    - fedora
+    - ubuntu
     - packages
 
-- name: Copy Aditional repos Repo
-  copy: 
-    src: "{{ item }}"
-    dest: /etc/yum.repos.d/
-  become: true
-  loop:
-    - files/vscode.repo
-    - files/google-chrome.repo
-  when: ansible_distribution == "Fedora"
-  tags:
-    - fedora
-    - packages
+- name: Add microsoft repository into sources list
+  ansible.builtin.apt_repository:
+    repo: deb https://packages.microsoft.com/repos/vscode stable main
+    state: present
+
+- name: Install nvm
+  ansible.builtin.shell: >
+    curl -o- https://raw.githubusercontent.com/nvm-sh/nvm/v0.39.2/install.sh | bash
+  args:
+    creates: "{{ ansible_env.HOME }}/.nvm/nvm.sh"
 
 - name: Install Aditional Packages
-  dnf:
+  ansible.builtin.apt:
     name: "{{ item }}"
     state: present
   become: true
   loop:
     - "{{ install_packages }}" 
-  when: ansible_distribution == "Fedora"
+  when: ansible_os_family == "Debian"
   tags:
-    - fedora
+    - ubuntu
     - packages
-
-- name: Add rpm keys
-  rpm_key:
-    state: present
-    key: "{{ item }}"
-  become: true
-  loop:
-    - /etc/pki/rpm-gpg/RPM-GPG-KEY-adobe-linux
-    - https://packages.microsoft.com/keys/microsoft.asc
-
-- name: Install Flash
-  dnf:
-    name: "{{ item }}"
-    state: present
-  become: true
-  loop:
-    - flash-plugin
-    - alsa-plugins-pulseaudio 
-    - libcurl
-  when: ansible_distribution == "Fedora"
-  tags:
-    - fedora
-    - packages
- 
-
-- name: Active COPER YADM Repo
-  command: dnf -y copr enable thelocehiliosan/yadm
-  become: true
-  ignore_errors: true
-  tags:
-    - fedora
-    - packages
-
-- name: Install YADM
-  dnf:
-    name: yadm
-    state: latest
-  become: true
-  ignore_errors: true
-  tags:
-    - fedora
-    - packages
-
-- name: install the latest version of Google Chrome
-  dnf:
-    name: google-chrome-stable
-    enablerepo: google-chrome
-    state: present
-  become: true
-
-- name: Add the flathub flatpak repository remote
-  flatpak_remote:
-    name: flathub
-    state: present
-    flatpakrepo_url: https://flathub.org/repo/flathub.flatpakrepo
-  become: true
-
-- name: Install Flathub apps
-  flatpak:
-    name: "{{ item }}"
-    state: present
-  loop:
-    - com.spotify.Client
-    - org.gnome.Fractal
-    - com.dropbox.Client
-    - com.skype.Client
-  ignore_errors: true
-  become: true
-  tags:
-    - fedora
-    - packages
-
-- name: Configure Fedora
-  command: yadm clone https://github.com/Wolfant/Dotfiles
-  tags:
-    - fedora
-    - configure
-  ignore_errors: true
-
