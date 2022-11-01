@@ -27,9 +27,8 @@
   ansible.builtin.apt_key:
     url: "{{ item }}"
     state: present
-  loop:
+  with_items:
     - "{{ gpg_keys }}"
-  when: ansible_os_family == "Debian"
   tags:
     - ubuntu
     - packages
@@ -39,9 +38,8 @@
   ansible.builtin.apt_repository:
     repo: "{{ item }}"
     state: present
-  loop:
+  with_items:
     - "{{ repos }}"
-  when: ansible_os_family == "Debian"
   tags:
     - ubuntu
     - packages
