@@ -23,6 +23,7 @@ install_packages:
   - gradle
   - openjdk-11-jdk
   - openjdk-8-jdk
+  - yarn
 
 install_snap_packages:
   - code
@@ -32,6 +33,9 @@ install_snap_packages:
   - slack
   - teams-for-linux
   - android-studio
+  - docker
+  - minikube
+  - notepad-plus-plus
 
 
 docker_packages:
