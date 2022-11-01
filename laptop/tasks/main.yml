@@ -22,12 +22,13 @@
     - ubuntu
     - packages
 
-- name: Add an Apt signing keys
+- name: Install Keys
+  become: true
   ansible.builtin.apt_key:
     url: "{{ item }}"
     state: present
   loop:
-    - "{{ gpg_keys }}" 
+    - "{{ gpg_keys }}"
   when: ansible_os_family == "Debian"
   tags:
     - ubuntu
