@@ -2,6 +2,7 @@
 # vars file for laptop
 prerequierements_packages:
   - gnupg
+  - snapd
   - snap
 
 gpg_keys:
@@ -27,6 +28,12 @@ install_packages:
 install_snap_packages:
   - code
   - dbeaver
+  - intellij-idea-community
+  - postman
+  - slack
+  - teams-for-linux
+  - android-studio
+
 
 docker_packages:
   - ca-certificates
