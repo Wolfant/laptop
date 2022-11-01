@@ -11,10 +11,10 @@
     - packages
 
 - name: Install Packages
+  become: true
   ansible.builtin.apt:
     name: gnupg
     state: present
-  become: true
 
 - name: Add an Apt signing key, uses whichever key is at the URL
   ansible.builtin.apt_key:
@@ -22,11 +22,19 @@
     state: present
 
 - name: Add microsoft repository into sources list
+  become: true
   ansible.builtin.apt_repository:
     repo: deb https://packages.microsoft.com/repos/vscode stable main
     state: present
+  
+- name: Update all packages to their latest version
+  become: true
+  ansible.builtin.apt:
+    name: "*"
+    state: latest
 
 - name: Install nvm
+  become: true
   ansible.builtin.shell: >
     curl -o- https://raw.githubusercontent.com/nvm-sh/nvm/v0.39.2/install.sh | bash
   args:
