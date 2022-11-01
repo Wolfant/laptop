@@ -2,6 +2,7 @@
 # vars file for laptop
 prerequierements_packages:
   - gnupg
+  - snap
 
 gpg_keys:
   - https://download.docker.com/linux/ubuntu/gpg
