@@ -16,9 +16,14 @@
     name: gnupg
     state: present
 
-- name: Add an Apt signing key, uses whichever key is at the URL
+- name: Add an Apt signing key, Microsoft
   ansible.builtin.apt_key:
     url: https://packages.microsoft.com/keys/microsoft.asc
+    state: present
+
+- name: Add an Apt signing key, Dbeaver
+  ansible.builtin.apt_key:
+    url: https://dbeaver.io/debs/dbeaver.gpg.key
     state: present
 
 - name: Add microsoft repository into sources list
@@ -26,6 +31,13 @@
   ansible.builtin.apt_repository:
     repo: deb https://packages.microsoft.com/repos/vscode stable main
     state: present
+
+- name: Add Dbeaber repository into sources list
+  become: true
+  ansible.builtin.apt_repository:
+    repo: deb https://dbeaver.io/debs/dbeaver-ce /
+    state: present
+
   
 - name: Update all packages to their latest version
   become: true

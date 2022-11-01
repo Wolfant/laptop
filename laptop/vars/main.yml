@@ -5,5 +5,10 @@ install_packages:
   - software-properties-common
   - apt-transport-https
   - wget
-  - code
+  - node
+  - git
+  - maven
+  - gradle
+  - openjdk-11-jdk
+  - openjdk-8-jdk
 
