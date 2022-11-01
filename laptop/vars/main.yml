@@ -10,7 +10,7 @@ gpg_keys:
 repos:
   - deb https://packages.microsoft.com/repos/vscode stable main
   - deb https://dbeaver.io/debs/dbeaver-ce /
-  
+
 install_packages:
   - vim
   - software-properties-common
@@ -22,6 +22,10 @@ install_packages:
   - gradle
   - openjdk-11-jdk
   - openjdk-8-jdk
+
+install_othersources_packages:
+  - code
+  - dbeaver
 
 docker_packages:
   - ca-certificates
