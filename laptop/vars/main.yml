@@ -23,7 +23,7 @@ install_packages:
   - openjdk-11-jdk
   - openjdk-8-jdk
 
-install_othersources_packages:
+install_snap_packages:
   - code
   - dbeaver
 

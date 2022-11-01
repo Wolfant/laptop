@@ -82,12 +82,12 @@
     - packages
 
 - name: Install packages from other sources
-  ansible.builtin.apt:
+  community.general.snap:
     name: "{{ item }}"
     state: present
   become: true
   loop:
-    - "{{ install_othersources_packages }}" 
+    - "{{ install_snap_packages }}" 
   when: ansible_os_family == "Debian"
   tags:
     - docker
