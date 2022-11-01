@@ -5,7 +5,7 @@ install_packages:
   - software-properties-common
   - apt-transport-https
   - wget
-  - node
+  - nodejs
   - git
   - maven
   - gradle
