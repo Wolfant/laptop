@@ -3,7 +3,6 @@
 prerequierements_packages:
   - gnupg
   - snapd
-  - snap
 
 gpg_keys:
   - https://download.docker.com/linux/ubuntu/gpg
