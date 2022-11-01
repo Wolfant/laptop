@@ -10,35 +10,41 @@
     - ubuntu
     - packages
 
-- name: Install Packages
+- name: Install Packages Pre-Requierements
   become: true
   ansible.builtin.apt:
-    name: gnupg
+    name: "{{ item }}"
     state: present
+  loop:
+    - "{{ prerequierements_packages }}"
+  when: ansible_os_family == "Debian"
+  tags:
+    - ubuntu
+    - packages
 
-- name: Add an Apt signing key, Microsoft
+- name: Add an Apt signing keys
   ansible.builtin.apt_key:
-    url: https://packages.microsoft.com/keys/microsoft.asc
+    url: "{{ item }}"
     state: present
+  loop:
+    - "{{ gpg_keys }}" 
+  when: ansible_os_family == "Debian"
+  tags:
+    - ubuntu
+    - packages
 
-- name: Add an Apt signing key, Dbeaver
-  ansible.builtin.apt_key:
-    url: https://dbeaver.io/debs/dbeaver.gpg.key
-    state: present
-
-- name: Add microsoft repository into sources list
+- name: Add repositories into sources list
   become: true
   ansible.builtin.apt_repository:
-    repo: deb https://packages.microsoft.com/repos/vscode stable main
+    repo: "{{ item }}"
     state: present
+  loop:
+    - "{{ repos }}"
+  when: ansible_os_family == "Debian"
+  tags:
+    - ubuntu
+    - packages
 
-- name: Add Dbeaber repository into sources list
-  become: true
-  ansible.builtin.apt_repository:
-    repo: deb https://dbeaver.io/debs/dbeaver-ce /
-    state: present
-
-  
 - name: Update all packages to their latest version
   become: true
   ansible.builtin.apt:
@@ -62,4 +68,16 @@
   when: ansible_os_family == "Debian"
   tags:
     - ubuntu
+    - packages
+
+- name: Install Docker Packages
+  ansible.builtin.apt:
+    name: "{{ item }}"
+    state: present
+  become: true
+  loop:
+    - "{{ docker_packages }}" 
+  when: ansible_os_family == "Debian"
+  tags:
+    - docker
     - packages

@@ -1,5 +1,16 @@
 ---
 # vars file for laptop
+prerequierements_packages:
+  - gnupg
+
+gpg_keys:
+  - https://download.docker.com/linux/ubuntu/gpg
+  - https://dbeaver.io/debs/dbeaver.gpg.key
+
+repos:
+  - deb https://packages.microsoft.com/repos/vscode stable main
+  - deb https://dbeaver.io/debs/dbeaver-ce /
+  
 install_packages:
   - vim
   - software-properties-common
@@ -11,4 +22,10 @@ install_packages:
   - gradle
   - openjdk-11-jdk
   - openjdk-8-jdk
+
+docker_packages:
+  - ca-certificates
+  - curl
+  - gnupg
+  - lsb-release
 
