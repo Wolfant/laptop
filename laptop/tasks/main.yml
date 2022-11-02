@@ -22,28 +22,6 @@
     - ubuntu
     - packages
 
-- name: Install Keys
-  become: true
-  ansible.builtin.apt_key:
-    url: "{{ item }}"
-    state: present
-  with_items:
-    - "{{ gpg_keys }}"
-  tags:
-    - ubuntu
-    - packages
-
-- name: Add repositories into sources list
-  become: true
-  ansible.builtin.apt_repository:
-    repo: "{{ item }}"
-    state: present
-  with_items:
-    - "{{ repos }}"
-  tags:
-    - ubuntu
-    - packages
-
 - name: Update all packages to their latest version
   become: true
   ansible.builtin.apt:
