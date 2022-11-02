@@ -36,8 +36,8 @@ install_snap_packages:
   - android-studio
   - docker
   - microk8s
-  - notepad-plus-plus
-
+  - sublime-text
+  - atom
 
 docker_packages:
   - ca-certificates
