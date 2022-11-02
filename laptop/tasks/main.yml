@@ -63,6 +63,7 @@
   community.general.snap:
     name: "{{ item }}"
     state: present
+    classic: true
   become: true
   loop:
     - "{{ install_snap_packages }}" 
