@@ -67,10 +67,10 @@
     - docker
     - packages
 
-- name: add user to 
+- name: add user to docker
   ansible.builtin.user:
     name: "{{ ubuntu_username }}"
-    groups: admin,docker
+    groups: docker
     append: yes
 
 
