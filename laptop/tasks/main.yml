@@ -91,7 +91,7 @@
   community.general.snap:
     name: "{{ item }}"
     state: present
-    classic: true
+    classic: false
   become: true
   loop:
     - "{{ install_snap_packages_not_classic }}" 
