@@ -35,7 +35,7 @@ install_snap_packages:
   - teams-for-linux
   - android-studio
   - docker
-  - minikube
+  - microk8s
   - notepad-plus-plus
 
 
