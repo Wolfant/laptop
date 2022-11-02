@@ -74,7 +74,7 @@
     append: yes
 
 
-- name: Install packages from other sources
+- name: Install snap classic packages
   community.general.snap:
     name: "{{ item }}"
     state: present
@@ -84,5 +84,18 @@
     - "{{ install_snap_packages }}" 
   when: ansible_os_family == "Debian"
   tags:
-    - docker
+    - ubuntu
+    - packages
+
+- name: Install snap packages
+  community.general.snap:
+    name: "{{ item }}"
+    state: present
+    classic: true
+  become: true
+  loop:
+    - "{{ install_snap_packages_not_classic }}" 
+  when: ansible_os_family == "Debian"
+  tags:
+    - ubuntu
     - packages

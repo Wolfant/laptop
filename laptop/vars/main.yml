@@ -41,6 +41,10 @@ install_snap_packages:
   - sublime-text
   - atom
 
+install_snap_packages_not_classic:
+  - dbeaver
+
+
 docker_packages:
   - ca-certificates
   - curl
