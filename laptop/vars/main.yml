@@ -1,5 +1,7 @@
 ---
 # vars file for laptop
+ubuntu_username : CHANGEME
+
 prerequierements_packages:
   - gnupg
   - snapd

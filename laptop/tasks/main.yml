@@ -59,6 +59,21 @@
     - docker
     - packages
 
+- name: Ensure group "docker" exists
+  ansible.builtin.group:
+    name: docker
+    state: present
+  tags:
+    - docker
+    - packages
+
+- name: add user to 
+  ansible.builtin.user:
+    name: "{{ ubuntu_username }}"
+    groups: admin,docker
+    append: yes
+
+
 - name: Install packages from other sources
   community.general.snap:
     name: "{{ item }}"
